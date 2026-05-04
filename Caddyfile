@@ -1,9 +1,15 @@
-https://bottg.sytes.net {
-    reverse_proxy web:8000
+bottg.sytes.net {
+    handle /webhook/* {
+        reverse_proxy bot:8080
+    }
 
     handle /static/* {
         root * /app
         file_server
+    }
+
+    handle {
+        reverse_proxy web:8000
     }
 
     log {
