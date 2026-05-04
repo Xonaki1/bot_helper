@@ -10,6 +10,7 @@ django.setup()
 
 from django.conf import settings
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
@@ -28,7 +29,7 @@ def create_dispatcher() -> Dispatcher:
 
 
 async def run_polling():
-    bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = create_dispatcher()
     logger.info('Starting bot in polling mode...')
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
@@ -38,7 +39,7 @@ async def run_webhook():
     from aiohttp import web
     from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-    bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = create_dispatcher()
 
     webhook_url = settings.WEBHOOK_HOST + settings.WEBHOOK_PATH
