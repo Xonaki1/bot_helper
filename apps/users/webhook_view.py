@@ -13,6 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.types import Update
 
 _bot: Bot | None = None
@@ -25,9 +27,8 @@ def _get_bot_and_dp():
     if _bot is None:
         with _lock:
             if _bot is None:
-                from aiogram.enums import ParseMode
                 from bot.main import create_dispatcher
-                _bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.HTML)
+                _bot = Bot(token=settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
                 _dp = create_dispatcher()
     return _bot, _dp
 
