@@ -1,0 +1,12 @@
+https://bottg.sytes.net {
+    reverse_proxy web:8000
+
+    handle /static/* {
+        root * /app
+        file_server
+    }
+
+    log {
+        output stdout
+    }
+}
